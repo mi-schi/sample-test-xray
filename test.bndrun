@@ -1,0 +1,36 @@
+#  global runtime setting
+-runee: JavaSE-11
+-runfw: org.eclipse.osgi
+-runvm: ${def;argLine}
+
+#  test engine selecting
+-tester: biz.aQute.tester.junit-platform
+Test-Cases: ${classes;CONCRETE;NAMED;*Test*}
+
+#  configure default logging
+-runproperties: \
+	org.ops4j.pax.logging.DefaultServiceLog.level=OFF,\
+	org.ops4j.pax.logging.property.file='${.}/../log4j2.properties',\
+	tester.trace
+
+#  minimal runtime setup for executing JUnit tests in an integration test bundle with logging (override if necessary)
+-runrequires: \
+	bnd.identity;id='org.ops4j.pax.logging.pax-logging-log4j2',\
+	bnd.identity;id=junit-jupiter-engine,\
+	bnd.identity;id='${project.artifactId}-tests'
+
+#  for deterministric bundle list order
+-runstartlevel: \
+    order=sortbynameversion,\
+    begin=-1
+
+#  debugging and service resolving
+-resolve.effective: active
+#-resolvedebug: 1
+#-runtrace: true
+#-runjdb=8000
+
+#  Debugging and service resolving
+#-resolvedebug: 1
+#-runtrace: true
+#-runjdb=8001
